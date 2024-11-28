@@ -5,16 +5,16 @@ import (
 	"net/http"
 )
 
-type api struct {
-	addr string
+type UserAPI struct {
+	Addr string
 }
 
-var users = []User{}
+var usrs = []User{}
 
-func (a *api) getUsersHandler(w http.ResponseWriter, r *http.Request) {
+func (a *UserAPI) GetUsersHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	err := json.NewEncoder(w).Encode(users)
+	err := json.NewEncoder(w).Encode(usrs)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -23,7 +23,7 @@ func (a *api) getUsersHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (a *api) createUsersHandler(w http.ResponseWriter, r *http.Request) {
+func (a *UserAPI) CreateUsersHandler(w http.ResponseWriter, r *http.Request) {
 
 	var payload User
 	err := json.NewDecoder(r.Body).Decode(&payload)
@@ -37,7 +37,7 @@ func (a *api) createUsersHandler(w http.ResponseWriter, r *http.Request) {
 		LastName:  payload.LastName,
 	}
 
-	users = append(users, u)
+	usrs = append(usrs, u)
 
 	w.WriteHeader(http.StatusCreated)
 }
