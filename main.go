@@ -5,17 +5,36 @@ import (
 	"net/http"
 )
 
-type server struct {
+type api struct {
 	addr string
 }
 
-func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello from the server"))
+func (s *api) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		switch r.URL.Path {
+		case "/":
+			w.Write([]byte("Hello, World"))
+			return
+		case "/users":
+			w.Write([]byte("users page"))
+			return
+		default:
+			w.Write([]byte("404 page"))
+		}
+	default:
+		w.Write([]byte("404 page"))
+	}
 }
 
 func main() {
-	s := &server{addr: ":8080"}
-	if err := http.ListenAndServe(s.addr, s); err != nil {
+	api := &api{addr: ":8080"}
+
+	srv := &http.Server{
+		Addr:    api.addr,
+		Handler: api,
+	}
+	if err := srv.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
 }
