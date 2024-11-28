@@ -3,6 +3,8 @@ package env
 import (
 	"os"
 	"strconv"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func GetString(key, fallback string) string {
