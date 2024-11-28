@@ -38,7 +38,6 @@ func (a *UserAPI) CreateUsersHandler(w http.ResponseWriter, r *http.Request) {
 		LastName:  payload.LastName,
 	}
 
-	err = insertUser(u)
 	if err = insertUser(u); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
