@@ -40,5 +40,9 @@ func (s *PostStore) Create(ctx context.Context, post *Post) error {
 		&post.UpdatedAt,
 	)
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
