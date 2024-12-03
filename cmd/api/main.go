@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/pizza-nz/go-social/internal/db"
 	"github.com/pizza-nz/go-social/internal/env"
 	"github.com/pizza-nz/go-social/internal/store"
 )
@@ -19,7 +20,17 @@ func main() {
 		},
 	}
 
-	store := store.NewStorage(nil)
+	db, err := db.New(
+		cfg.db.addr,
+		cfg.db.maxIdleConns,
+		cfg.db.maxOpenConns,
+		cfg.db.maxIdleTime,
+	)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	store := store.NewStorage(db)
 
 	app := &application{
 		config: cfg,
