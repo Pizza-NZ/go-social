@@ -3,6 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16.3
+    container_name: postgres-db
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -12,15 +13,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/postgres_data
   
-  app:
-    build: .
-    environment:
-      - DB_HOST=postgres
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-    depends_on:
-      - postgres
 
-  volumes:
-    postgres_data:
+
+volumes:
+  postgres_data:
