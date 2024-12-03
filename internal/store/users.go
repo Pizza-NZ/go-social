@@ -34,5 +34,9 @@ func (s *UserStore) Create(ctx context.Context, user *User) error {
 		&user.CreatedAt,
 	)
 
-	return err
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
